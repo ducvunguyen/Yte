@@ -9,6 +9,7 @@ use App\Models\Banner;
 use App\Models\Package;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\EditServiceRequest;
+use App\Http\Requests\AddServiceRequest;
 use Illuminate\Support\Facades\Storage;
 use File;
 class ServicesController extends Controller
@@ -88,7 +89,7 @@ class ServicesController extends Controller
         return view('admin.service.add', compact('package', 'banner'));
     }
 
-    public function add(Request $request){
+    public function add(AddServiceRequest $request){
        $titlePd = $request->title_pa;
         $icon = $request->image;
         $title_child = $request->title_child;
@@ -112,9 +113,8 @@ class ServicesController extends Controller
             }
         }
         if(!$checkUpload && $namefile == ''){
-            dd('that bai');
-            // $request->session()->flash('errUpload', 'Vui long chon file upload');
-            // return redirect()->route('admin.service.dashboard',['state'=>'fail']);
+            
+            return redirect()->route('admin.service.dashboard')->with('fail', 'Moi chon lai file');
         } else {
             // insert data
             $dataInsert = [
@@ -134,7 +134,7 @@ class ServicesController extends Controller
                 return redirect()->route('admin.service.dashboard')->with('message', 'Them thành công');
             } else {
                 // dd('that bai');
-                return redirect()->route('admin.service.dashboard')->with('fail', 'Thêm mới thất bại');
+                return redirect()->route('admin.service.addService')->with('fail', 'Thêm mới thất bại');
             }
         }
     }

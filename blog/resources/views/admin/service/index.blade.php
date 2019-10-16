@@ -15,12 +15,9 @@
 	@foreach($data as $val)
 	<div class="form-group">
 		<div style="display: flex; justify-content:flex-start">
-			<div>
-				<img src="uploads/images/{{$val->icon}}">
-			</div>
-			<div>
-					<h2><?php echo $val->name ?></h2>
-			</div>
+			<img src="uploads/images/{{$val->icon}}">
+			<h2><?php echo $val->name ?></h2>
+			
 		</div>
 		<div class=" mgr-20 mgr-40" >
 				<h4 class="h4"><?php echo $val->title ?> </h4>

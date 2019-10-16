@@ -15,6 +15,9 @@
 		</div>
 		@endif
 	</div>
+	@if (Session::has('fail'))
+   		<div class="alert alert-danger">{{ Session::get('fail') }}</div>
+	@endif
 </div>
 <form action="{{route('admin.service.add')}}" method="POST" role="form"  enctype="multipart/form-data">
 	<legend>Chỉnh sửa gói dịch vụ: </legend>
