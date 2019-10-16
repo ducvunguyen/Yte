@@ -19,7 +19,7 @@ class ServicesController extends Controller
      //        ->join('banners', 'services.banner_id', '=', 'banners.id')
      //        ->select('services.*', 'banners.name')
      //        ->paginate(2);
-        $data = Service::paginate(2);
+        $data = Service::paginate(1);
 
          return view('admin.service.index', compact('data'));
          
@@ -104,7 +104,7 @@ class ServicesController extends Controller
             $file = $request->file('image');
             // lay ten file
             $namefile = $file->getClientOriginalName();
-
+            
             if($file->getError() == 0){
                 // upload
                 if($file->move(public_path('uploads/images/'),$namefile)){

@@ -57,5 +57,18 @@ Route::group([
 		Route::post('/add', 'ServicesController@add')->name('add');
 		Route::get('/destroy/{id}', 'ServicesController@destroy')->name('destroy');
 	});
+
+	//about
+	Route::group([
+				'as'	=> 'about.',
+				'prefix' => 'about',
+	], function(){
+		Route::get('/', 'AboutController@index')->name('dashboard');
+		Route::get('/edit/{id}', 'AboutController@showFormEdit')->name('edit');
+		Route::post('/update{id}', 'AboutController@Update')->name('update');
+		Route::get('/addservice', 'AboutController@addAbout')->name('addAbout');
+		Route::post('/add', 'AboutController@add')->name('add');
+		Route::get('/destroy/{id}', 'AboutController@destroy')->name('destroy');
+	});
 });
 

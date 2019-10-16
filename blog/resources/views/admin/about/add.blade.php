@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-<a href="{{route('admin.service.dashboard')}}" class="btn btn-info">Quay lại</a>
+<a href="{{route('admin.about.dashboard')}}" class="btn btn-info">Quay lại</a>
 <pre></pre>
 <div class="row">
 	<div class="col-lg-12">
@@ -19,34 +19,21 @@
    		<div class="alert alert-danger">{{ Session::get('fail') }}</div>
 	@endif
 </div>
-<form action="{{route('admin.service.add')}}" method="POST" role="form"  enctype="multipart/form-data">
-	<legend>Chỉnh sửa gói dịch vụ: </legend>
+<form action="{{route('admin.about.add')}}" method="POST" role="form"  enctype="multipart/form-data">
+	<legend>Thêm gói dịch vụ </legend>
 	@csrf
 	<div class="form-group">
-		<label for="">Tiêu đề lớn: </label>
-		<input type="text" class="form-control" id="" placeholder="Tiêu đề lớn"  name="title_pa">
+		<label for="">Tiêu đề </label>
+		<input type="text" class="form-control" id="" placeholder="Tiêu đề lớn"  name="title">
 	</div>
 	<div class="form-group">
-		<label for="">Tiêu id: </label>
-		<input type="text" class="form-control" id="" placeholder="Tiêu đề lớn"  name="title_id">
-	</div>
-	<div class="form-group">
-		<label for="imagePd">Image Pd</label>
+		<label for="imagePd">Image</label>
 		<input type="file" name="image" id="imagePd" class="form-control" >
 	</div>
 	<div class="form-group">
-		<label for="">Tiêu đề con: </label>
-		<input type="text" name="title_child" class="form-control" id="" placeholder="Tiêu đề con">
+		<label for="">Chọn đường dẫn </label>
+		<input type="text" name="link" class="form-control" id="" placeholder="Tiêu đề con">
 	</div>
-	<div class="form-group">
-		<label for="slcCat">Chọn gọi trị liệu</label>
-		<select  class="form-control" id="slcCat" name="package_id">
-			@foreach ($package as $pack)
-			<option value="{{ $pack->id }}"> {{ $pack->name }}</option>                     
-			@endforeach
-		</select>
-	</div>
-	
 	<div class="form-group">
 		<label for="">Content</label>
 		 <textarea id="contentPd" name="content" class="form-control">{!! old('content', 'editor content') !!}</textarea>
@@ -71,9 +58,6 @@
             </script>
 	</div>
 	
-
-		
-
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 	@endsection

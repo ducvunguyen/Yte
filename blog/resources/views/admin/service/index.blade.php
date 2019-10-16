@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
 	<a href="{{route('admin.service.addService')}}" class="btn btn-info">Thêm dịch vụ</a>
+	<pre></pre>
 	@if(session()->has('message'))
 	<div class="alert alert-success">
 		{{ session()->get('message') }}
@@ -14,7 +15,7 @@
 	@endif
 	@foreach($data as $val)
 	<div class="form-group">
-		<div style="display: flex; justify-content:flex-start">
+		<div>
 			<img src="uploads/images/{{$val->icon}}">
 			<h2><?php echo $val->name ?></h2>
 			

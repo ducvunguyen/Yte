@@ -23,7 +23,7 @@
     <!-- Latest compiled and minified CSS -->
   
   {{-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> --}}
-  <{{-- script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+  {{-- script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
    --}}
   <style>
     /*width: 50px;

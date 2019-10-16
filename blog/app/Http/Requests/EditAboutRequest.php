@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddServiceRequest extends FormRequest
+class EditAboutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,23 +24,21 @@ class AddServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'title_pa' => 'required|min:3',
+            'title' => 'required|min:3',
             'image.*' => 'required|mimes:jpeg,bmp,png',
-            'title_child' => 'required|min:3',
-            'package_id' => 'required',
-            'content' => 'required|min:3',
-            'title_id' =>'required',
+            'link' => 'required',
+            'content' =>'required',
         ];
     }
+
     public function messages(){
-        return[
-            'title_pa.min' => 'Tieu de cha phai lon hon 3 kys tu',
-            'title_pa.required' => 'Tieu de khong duoc de trong',
+        return [
+            'title.min' => 'Tieu de cha phai lon hon 3 kys tu',
+            'title.required' => 'Tieu de khong duoc de trong',
             'image.required' => 'Chua co icon',
             'image.mimes' => 'Chua dung dinh dang anh',
-            'package_id' =>'Ban chua nhap id goi tri lieu',
+            'link' =>'Link khong duoc de trong',
             'content.required' => 'Ban chua nhap noi dung mieu ta',
-            'content.min' => 'phai 3 ky tu tro len',
         ];
     }
 }
