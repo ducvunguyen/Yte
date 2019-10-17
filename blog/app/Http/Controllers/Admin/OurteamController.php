@@ -4,33 +4,34 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\About;
-use App\Http\Requests\AddAboutRequest;
-use App\Http\Requests\EditAboutRequest;
+use App\Models\OurTeam;
+use App\Http\Requests\AddOurteamRequest;
+use App\Http\Requests\EditOurteamRequest;
 use Illuminate\Support\Facades\DB;
-class AboutController extends Controller
+
+class OurteamController extends Controller
 {
     public function index(){
-        $data = About::paginate(1);
+        $data = OurTeam::paginate(1);
 
-         return view('admin.about.index', compact('data'));
+         return view('admin.ourteam.index', compact('data'));
          
     }
 
     public function showFormEdit($id){
-    	$data = About::find($id);
-    	return view('admin.about.edit', compact('data'));
+    	$data = OurTeam::find($id);
+    	return view('admin.ourteam.edit', compact('data'));
     }
 
-    public function Update($id, EditAboutRequest $request)
+    public function Update($id, EditOurteamRequest $request)
     {
-        $find = About::find($id);
+        $find = Partner::find($id);
         $image= $find->image;
-        $file_path = public_path().'/uploads/abouts/'.$image;
+        $file_path = public_path().'/uploads/ourteams/'.$image;
 
-    	$title = $request->title;
+    	$name = $request->name;
         $image = $request->image;
-        $link = $request->link;
+        $position = $request->position;
         $contentPd = $request->content;
         $checkUpload = false;
         $namefile = '';
@@ -42,7 +43,7 @@ class AboutController extends Controller
 
             if($file->getError() == 0){
                 // upload
-                if($file->move(public_path('uploads/abouts/'),$namefile)){
+                if($file->move(public_path('uploads/ourteams/'),$namefile)){
                     $checkUpload = true;
                 }
             }
@@ -53,32 +54,32 @@ class AboutController extends Controller
         } else {
             // insert data
             $update = [
-                'title' => $title,
+                'name' => $name,
                 'content' => $contentPd,
                 'image' => $namefile,
-                'links' => $link,
+                'position' => $position,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null
             ];
           
-            if(DB::table('abouts')->where('id', $id)->update($update)){
+            if(DB::table('ourteams')->where('id', $id)->update($update)&&unlink($file_path)){
                 // dd('thanh cong');
-                return redirect()->route('admin.about.dashboard')->with('message', 'Them thành công');
+                return redirect()->route('admin.ourteam.dashboard')->with('message', 'Them thành công');
             } else {
-                return redirect()->route('admin.about.edit')->with('fail', 'Thêm mới thất bại');
+                return redirect()->route('admin.ourteam.edit')->with('fail', 'Thêm mới thất bại');
             }
         }
     	
     }
     public function addAbout()
     {
-        return view('admin.about.add');
+        return view('admin.ourteam.add');
     }
 
-    public function add(AddAboutRequest $request){
-       $title = $request->title;
+    public function add(AddOurteamRequest $request){
+       $name = $request->name;
         $image = $request->image;
-        $link = $request->link;
+        $position = $request->position;
         $contentPd = $request->content;
         $checkUpload = false;
         $namefile = '';
@@ -90,7 +91,7 @@ class AboutController extends Controller
 
             if($file->getError() == 0){
                 // upload
-                if($file->move(public_path('uploads/abouts/'),$namefile)){
+                if($file->move(public_path('uploads/ourteams/'),$namefile)){
                     $checkUpload = true;
                 }
             }
@@ -102,26 +103,26 @@ class AboutController extends Controller
         } else {
             // insert data
             $dataInsert = [
-                'title' => $title,
+                'name' => $name,
                 'content' => $contentPd,
                 'image' => $namefile,
-                'links' => $link,
+                'position' => $position,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => null
             ];
           
-            if(DB::table('abouts')->insert($dataInsert)){
+            if(DB::table('ourteams')->insert($dataInsert)){
                 // dd('thanh cong');
-                return redirect()->route('admin.about.dashboard')->with('message', 'Them thành công');
+                return redirect()->route('admin.ourteam.dashboard')->with('message', 'Them thành công');
             } else {
-                return redirect()->route('admin.about.addAbout')->with('fail', 'Thêm mới thất bại');
+                return redirect()->route('admin.ourteam.addAbout')->with('fail', 'Thêm mới thất bại');
             }
         }
     }
     public function destroy($id){
-        $delete = About::find($id);
+        $delete = OurTeam::find($id);
         $image= $delete->image;
-        $file_path = public_path().'/uploads/abouts/'.$image;
+        $file_path = public_path().'/uploads/ourteams/'.$image;
         if ($delete->delete()&& unlink($file_path)) {
             
             return redirect()->back()->with('message', 'Đã xóa thành công');

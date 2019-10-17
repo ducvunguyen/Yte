@@ -4,34 +4,32 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\About;
-use App\Http\Requests\AddAboutRequest;
-use App\Http\Requests\EditAboutRequest;
+use App\Models\Banner;
+use App\Http\Requests\AddBannerRequest;
+use App\Http\Requests\EditBannerRequest;
 use Illuminate\Support\Facades\DB;
-class AboutController extends Controller
+class BannerController extends Controller
 {
     public function index(){
-        $data = About::paginate(1);
+        $data = Banner::paginate(1);
 
-         return view('admin.about.index', compact('data'));
+         return view('admin.banner.index', compact('data'));
          
     }
 
     public function showFormEdit($id){
-    	$data = About::find($id);
-    	return view('admin.about.edit', compact('data'));
+    	$data = Banner::find($id);
+    	return view('admin.banner.edit', compact('data'));
     }
 
-    public function Update($id, EditAboutRequest $request)
+    public function Update($id, EditBannerRequest $request)
     {
-        $find = About::find($id);
+         $find = Partner::find($id);
         $image= $find->image;
-        $file_path = public_path().'/uploads/abouts/'.$image;
+        $file_path = public_path().'/uploads/banners/'.$image;
 
-    	$title = $request->title;
+    	$name = $request->name;
         $image = $request->image;
-        $link = $request->link;
-        $contentPd = $request->content;
         $checkUpload = false;
         $namefile = '';
         // dd($request->file('image'));
@@ -42,44 +40,41 @@ class AboutController extends Controller
 
             if($file->getError() == 0){
                 // upload
-                if($file->move(public_path('uploads/abouts/'),$namefile)){
+                if($file->move(public_path('uploads/banners/'),$namefile)){
                     $checkUpload = true;
                 }
             }
         }
+
         if(!$checkUpload && $namefile == ''){
             
-            return redirect()->route('admin.about.dashboard')->with('fail', 'Moi chon lai file');
+            return redirect()->route('admin.banner.dashboard')->with('fail', 'Moi chon lai file');
         } else {
             // insert data
-            $update = [
-                'title' => $title,
-                'content' => $contentPd,
+            $dataInsert = [
+                'name' => $name,
                 'image' => $namefile,
-                'links' => $link,
                 'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => null
+                'updated_at' => null,
             ];
           
-            if(DB::table('abouts')->where('id', $id)->update($update)){
+            if(DB::table('banners')->where('id', $id)->update($dataInsert)){
                 // dd('thanh cong');
-                return redirect()->route('admin.about.dashboard')->with('message', 'Them thành công');
+                return redirect()->route('admin.banner.dashboard')->with('message', 'Them thành công');
             } else {
-                return redirect()->route('admin.about.edit')->with('fail', 'Thêm mới thất bại');
+                return redirect()->route('admin.banner.addBanner')->with('fail', 'Thêm mới thất bại');
             }
         }
     	
     }
     public function addAbout()
     {
-        return view('admin.about.add');
+        return view('admin.banner.add');
     }
 
-    public function add(AddAboutRequest $request){
-       $title = $request->title;
+    public function add(AddBannerRequest $request){
+       $name = $request->name;
         $image = $request->image;
-        $link = $request->link;
-        $contentPd = $request->content;
         $checkUpload = false;
         $namefile = '';
         // dd($request->file('image'));
@@ -90,7 +85,7 @@ class AboutController extends Controller
 
             if($file->getError() == 0){
                 // upload
-                if($file->move(public_path('uploads/abouts/'),$namefile)){
+                if($file->move(public_path('uploads/banners/'),$namefile)){
                     $checkUpload = true;
                 }
             }
@@ -98,30 +93,28 @@ class AboutController extends Controller
 
         if(!$checkUpload && $namefile == ''){
             
-            return redirect()->route('admin.about.dashboard')->with('fail', 'Moi chon lai file');
+            return redirect()->route('admin.banner.dashboard')->with('fail', 'Moi chon lai file');
         } else {
             // insert data
             $dataInsert = [
-                'title' => $title,
-                'content' => $contentPd,
+                'name' => $name,
                 'image' => $namefile,
-                'links' => $link,
                 'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => null
+                'updated_at' => null,
             ];
           
-            if(DB::table('abouts')->insert($dataInsert)){
+            if(DB::table('banners')->insert($dataInsert)){
                 // dd('thanh cong');
-                return redirect()->route('admin.about.dashboard')->with('message', 'Them thành công');
+                return redirect()->route('admin.banner.dashboard')->with('message', 'Them thành công');
             } else {
-                return redirect()->route('admin.about.addAbout')->with('fail', 'Thêm mới thất bại');
+                return redirect()->route('admin.banner.addBanner')->with('fail', 'Thêm mới thất bại');
             }
         }
     }
     public function destroy($id){
-        $delete = About::find($id);
+        $delete = Banner::find($id);
         $image= $delete->image;
-        $file_path = public_path().'/uploads/abouts/'.$image;
+        $file_path = public_path().'/uploads/banners/'.$image;
         if ($delete->delete()&& unlink($file_path)) {
             
             return redirect()->back()->with('message', 'Đã xóa thành công');

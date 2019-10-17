@@ -66,9 +66,46 @@ Route::group([
 		Route::get('/', 'AboutController@index')->name('dashboard');
 		Route::get('/edit/{id}', 'AboutController@showFormEdit')->name('edit');
 		Route::post('/update{id}', 'AboutController@Update')->name('update');
-		Route::get('/addservice', 'AboutController@addAbout')->name('addAbout');
+		Route::get('/addabout', 'AboutController@addAbout')->name('addAbout');
 		Route::post('/add', 'AboutController@add')->name('add');
 		Route::get('/destroy/{id}', 'AboutController@destroy')->name('destroy');
+	});
+
+	//banner
+	Route::group([
+				'as'	=> 'banner.',
+				'prefix' => 'banner',
+	], function(){
+		Route::get('/', 'BannerController@index')->name('dashboard');
+		Route::get('/edit/{id}', 'BannerController@showFormEdit')->name('edit');
+		Route::post('/update{id}', 'BannerController@Update')->name('update');
+		Route::get('/addbanner', 'BannerController@addAbout')->name('addBanner');
+		Route::post('/add', 'BannerController@add')->name('add');
+		Route::get('/destroy/{id}', 'BannerController@destroy')->name('destroy');
+	});
+
+	Route::group([
+				'as'	=> 'partner.',
+				'prefix' => 'partner',
+	], function(){
+		Route::get('/', 'PartnerController@index')->name('dashboard');
+		Route::get('/edit/{id}', 'PartnerController@showFormEdit')->name('edit');
+		Route::post('/update{id}', 'PartnerController@Update')->name('update');
+		Route::get('/addpartner', 'PartnerController@addAbout')->name('addPartner');
+		Route::post('/add', 'PartnerController@add')->name('add');
+		Route::get('/destroy/{id}', 'PartnerController@destroy')->name('destroy');
+	});
+
+	Route::group([
+				'as'	=> 'ourteam.',
+				'prefix' => 'ourteam',
+	], function(){
+		Route::get('/', 'OurteamController@index')->name('dashboard');
+		Route::get('/edit/{id}', 'OurteamController@showFormEdit')->name('edit');
+		Route::post('/update{id}', 'OurteamController@Update')->name('update');
+		Route::get('/addourteam', 'OurteamController@addAbout')->name('addOurteam');
+		Route::post('/add', 'OurteamController@add')->name('add');
+		Route::get('/destroy/{id}', 'OurteamController@destroy')->name('destroy');
 	});
 });
 

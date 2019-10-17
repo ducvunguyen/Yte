@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-	<a href="{{route('admin.about.addAbout')}}" class="btn btn-info">Thêm giới thiệu</a>
+	<a href="{{route('admin.partner.addPartner')}}" class="btn btn-info">Thêm giới thiệu</a>
 	<pre></pre>
 	@if(session()->has('message'))
 	<div class="alert alert-success">
@@ -16,7 +16,7 @@
 	@foreach($data as $val)
 	<div class="form-group">
 		<div>
-			<img src="uploads/abouts/{{$val->image	}}">
+			<img src="uploads/partners/{{$val->image	}}">
 			<h2><?php echo $val->title ?></h2>
 			
 		</div>
@@ -25,8 +25,8 @@
 			<p><?php echo $val->content ?></p>
 		</div>										
 	</div>
-	<a href="{{route('admin.about.edit', $val->id)}}" class="btn btn-warning">Edit</a>
-	<a href="{{route('admin.about.destroy', $val->id)}}" class="btn btn-danger">Delete</a>
+	<a href="{{route('admin.partner.edit', $val->id)}}" class="btn btn-warning">Edit</a>
+	<a href="{{route('admin.partner.destroy', $val->id)}}" class="btn btn-danger">Delete</a>
 	<pre></pre>
 	@endforeach
 

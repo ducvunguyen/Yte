@@ -33,6 +33,10 @@ class ServicesController extends Controller
 
     public function Update($id, EditServiceRequest $request)
     {
+        $find = Service::find($id);
+        $image= $find->image;
+        $file_path = public_path().'/uploads/services/'.$image;
+
     	$titlePd = $request->title_pa;
     	$icon = $request->image;
         $title_child = $request->title_child;
@@ -49,7 +53,7 @@ class ServicesController extends Controller
 
             if($file->getError() == 0){
                 // upload
-                if($file->move(public_path('uploads/images/'),$icon)){
+                if($file->move(public_path('uploads/services/'),$icon)){
                     $checkUpload = true;
                 }
             }
@@ -107,7 +111,7 @@ class ServicesController extends Controller
             
             if($file->getError() == 0){
                 // upload
-                if($file->move(public_path('uploads/images/'),$namefile)){
+                if($file->move(public_path('uploads/services/'),$namefile)){
                     $checkUpload = true;
                 }
             }
@@ -141,7 +145,7 @@ class ServicesController extends Controller
     public function destroy($id){
         $delete = Service::find($id);
         $image= $delete->icon;
-        $file_path = public_path().'/uploads/images/'.$image;
+        $file_path = public_path().'/uploads/services/'.$image;
         if ($delete->delete()&& unlink($file_path)) {
             
             return redirect()->back()->with('message', 'Đã xóa thành công');
