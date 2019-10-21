@@ -25,9 +25,10 @@
 			</tr>
 		</thead>
 		<tbody>
+			<?php $count = 1 ?>
 			@foreach($data as $key=>$val)
 				<tr>
-					<td><?php echo $key++ ?></td>
+					<td><?php echo $count++ ?></td>
 					<td><?php echo $val->name ?></td>
 					<td style="width: 10%"><?php echo $val->address ?></td>
 					<td style="width: 100px;

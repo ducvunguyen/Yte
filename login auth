@@ -1,0 +1,201 @@
+warning: LF will be replaced by CRLF in blog/app/Http/Kernel.php.
+The file will have its original line endings in your working directory
+[1mdiff --git a/blog/app/Http/Kernel.php b/blog/app/Http/Kernel.php[m
+[1mindex a3d8c48..a88e871 100644[m
+[1m--- a/blog/app/Http/Kernel.php[m
+[1m+++ b/blog/app/Http/Kernel.php[m
+[36m@@ -60,6 +60,7 @@[m [mclass Kernel extends HttpKernel[m
+         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,[m
+         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,[m
+         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,[m
+[32m+[m[32m        'checkAdmin' => \App\Http\Middleware\checkAdmin::class,[m
+     ];[m
+ [m
+     /**[m
+[1mdiff --git a/blog/resources/views/admin/dashboard/dashboard.blade.php b/blog/resources/views/admin/dashboard/dashboard.blade.php[m
+[1mindex 2eb6834..7544f8f 100644[m
+[1m--- a/blog/resources/views/admin/dashboard/dashboard.blade.php[m
+[1m+++ b/blog/resources/views/admin/dashboard/dashboard.blade.php[m
+[36m@@ -1,5 +1,8 @@[m
+ @extends('admin.layout')[m
+ [m
+ @section('content')[m
+[32m+[m[32m@if (Session::has('success'))[m
+[32m+[m[32m   <div class="alert alert-info">{{ Session::get('success') }}</div>[m
+[32m+[m[32m@endif[m
+ <p>Well come to Admin</p>[m
+ @endsection[m
+\ No newline at end of file[m
+[1mdiff --git a/blog/resources/views/admin/header.blade.php b/blog/resources/views/admin/header.blade.php[m
+[1mindex 30ceb12..3cbae15 100644[m
+[1m--- a/blog/resources/views/admin/header.blade.php[m
+[1m+++ b/blog/resources/views/admin/header.blade.php[m
+[36m@@ -7,54 +7,8 @@[m
+     </button>[m
+ [m
+     <!-- Navbar Search -->[m
+[31m-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">[m
+[31m-      <div class="input-group">[m
+[31m-        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">[m
+[31m-        <div class="input-group-append">[m
+[31m-          <button class="btn btn-primary" type="button">[m
+[31m-            <i class="fas fa-search"></i>[m
+[31m-          </button>[m
+[31m-        </div>[m
+[31m-      </div>[m
+[31m-    </form>[m
+[31m-[m
+[32m+[m[41m   [m
+     <!-- Navbar -->[m
+[31m-    <ul class="navbar-nav ml-auto ml-md-0">[m
+[31m-      <li class="nav-item dropdown no-arrow mx-1">[m
+[31m-        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">[m
+[31m-          <i class="fas fa-bell fa-fw"></i>[m
+[31m-          <span class="badge badge-danger">9+</span>[m
+[31m-        </a>[m
+[31m-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">[m
+[31m-          <a class="dropdown-item" href="#">Action</a>[m
+[31m-          <a class="dropdown-item" href="#">Another action</a>[m
+[31m-          <div class="dropdown-divider"></div>[m
+[31m-          <a class="dropdown-item" href="#">Something else here</a>[m
+[31m-        </div>[m
+[31m-      </li>[m
+[31m-      <li class="nav-item dropdown no-arrow mx-1">[m
+[31m-        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">[m
+[31m-          <i class="fas fa-envelope fa-fw"></i>[m
+[31m-          <span class="badge badge-danger">7</span>[m
+[31m-        </a>[m
+[31m-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">[m
+[31m-          <a class="dropdown-item" href="#">Action</a>[m
+[31m-          <a class="dropdown-item" href="#">Another action</a>[m
+[31m-          <div class="dropdown-divider"></div>[m
+[31m-          <a class="dropdown-item" href="#">Something else here</a>[m
+[31m-        </div>[m
+[31m-      </li>[m
+[31m-      <li class="nav-item dropdown no-arrow">[m
+[31m-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">[m
+[31m-          <i class="fas fa-user-circle fa-fw"></i>[m
+[31m-        </a>[m
+[31m-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">[m
+[31m-          <a class="dropdown-item" href="#">Settings</a>[m
+[31m-          <a class="dropdown-item" href="#">Activity Log</a>[m
+[31m-          <div class="dropdown-divider"></div>[m
+[31m-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>[m
+[31m-        </div>[m
+[31m-      </li>[m
+[31m-    </ul>[m
+[32m+[m[41m    [m
+ [m
+   </nav>[m
+[1mdiff --git a/blog/resources/views/admin/layout.blade.php b/blog/resources/views/admin/layout.blade.php[m
+[1mindex 29b7d44..963c161 100644[m
+[1m--- a/blog/resources/views/admin/layout.blade.php[m
+[1m+++ b/blog/resources/views/admin/layout.blade.php[m
+[36m@@ -68,7 +68,7 @@[m
+           <a class="dropdown-item" href="#">Settings</a>[m
+           <a class="dropdown-item" href="#">Activity Log</a>[m
+           <div class="dropdown-divider"></div>[m
+[31m-          <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>[m
+[32m+[m[32m          <a class="dropdown-item" href="{{route('login.logout')}}">Logout</a>[m
+         </div>[m
+       </li>[m
+     </ul>[m
+[36m@@ -80,7 +80,7 @@[m
+     <!-- Sidebar -->[m
+     <ul class="sidebar navbar-nav">[m
+       <li class="nav-item active">[m
+[31m-        <a class="nav-link" href="index.html">[m
+[32m+[m[32m        <a class="nav-link" href="admin.dashboard">[m
+           <i class="fas fa-fw fa-tachometer-alt"></i>[m
+           <span>Dashboard</span>[m
+         </a>[m
+[36m@@ -155,23 +155,7 @@[m
+   </a>[m
+ [m
+   <!-- Logout Modal-->[m
+[31m-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">[m
+[31m-    <div class="modal-dialog" role="document">[m
+[31m-      <div class="modal-content">[m
+[31m-        <div class="modal-header">[m
+[31m-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>[m
+[31m-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">[m
+[31m-            <span aria-hidden="true">×</span>[m
+[31m-          </button>[m
+[31m-        </div>[m
+[31m-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>[m
+[31m-        <div class="modal-footer">[m
+[31m-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>[m
+[31m-          <a class="btn btn-primary" href="login.html">Logout</a>[m
+[31m-        </div>[m
+[31m-      </div>[m
+[31m-    </div>[m
+[31m-  </div>[m
+[32m+[m[41m [m
+ [m
+ [m
+   <!-- Bootstrap core JavaScript-->[m
+[1mdiff --git a/blog/resources/views/admin/package/index.blade.php b/blog/resources/views/admin/package/index.blade.php[m
+[1mindex e03494b..362f58a 100644[m
+[1m--- a/blog/resources/views/admin/package/index.blade.php[m
+[1m+++ b/blog/resources/views/admin/package/index.blade.php[m
+[36m@@ -25,9 +25,10 @@[m
+ 			</tr>[m
+ 		</thead>[m
+ 		<tbody>[m
+[32m+[m			[32m<?php $count = 1 ?>[m
+ 			@foreach($data as $key=>$val)[m
+ 				<tr>[m
+[31m-					<td><?php echo $key++ ?></td>[m
+[32m+[m					[32m<td><?php echo $count++ ?></td>[m
+ 					<td><?php echo $val->name ?></td>[m
+ 					<td style="width: 10%"><?php echo $val->address ?></td>[m
+ 					<td style="width: 100px;[m
+[1mdiff --git a/blog/routes/web.php b/blog/routes/web.php[m
+[1mindex 0c4eaf6..7c2fc5e 100644[m
+[1m--- a/blog/routes/web.php[m
+[1m+++ b/blog/routes/web.php[m
+[36m@@ -16,18 +16,19 @@[m [mRoute::get('/', function () {[m
+ });[m
+ [m
+ [m
+[31m-Route::group(['prefix' => 'admin'], function(){[m
+[31m-	Route::get('/', 'AdminController@index')->name('dashboard');[m
+[31m-	Route::get('/getadd', 'AdminController@getadd')->name('getadd');[m
+[31m-	Route::post('/add', 'AdminController@add')->name('add');[m
+[32m+[m[32m// Route::group(['prefix' => 'admin'], function(){[m
+[32m+[m[32m// 	Route::get('/', 'AdminController@index')->name('dashboard');[m
+[32m+[m[32m// 	Route::get('/getadd', 'AdminController@getadd')->name('getadd');[m
+[32m+[m[32m// 	Route::post('/add', 'AdminController@add')->name('add');[m
+ [m
+ [m
+[31m-});[m
+[32m+[m[32m// });[m
+ [m
+ Route::group([[m
+ 			'namespace' =>'Admin',[m
+ 			'prefix'=>'admin',[m
+[31m-			'as'	=> 'admin.',		[m
+[32m+[m			[32m'as'	=> 'admin.',[m
+[32m+[m			[32m'middleware' => ['checkAdmin', 'web'],[m[41m		[m
+ ], function(){[m
+ 	Route::get('/dashboard', 'DashboardController@index')->name('dashboard');[m
+ 	//package[m
+[36m@@ -109,3 +110,18 @@[m [mRoute::group([[m
+ 	});[m
+ });[m
+ [m
+[32m+[m
+[32m+[m[32mRoute::group([[m
+[32m+[m	[32m'namespace' => 'Admin',[m
+[32m+[m	[32m'as'	=> 'login.',[m
+[32m+[m	[32m'prefix'=> 'login',[m
+[32m+[m
+[32m+[m[32m], function(){[m
+[32m+[m	[32mRoute::get('/', 'AdminLoginController@showlogin')->name('showlogin');[m
+[32m+[m	[32mRoute::post('/login', 'AdminLoginController@login')->name('login');[m
+[32m+[m	[32mRoute::any('logout', 'AdminLoginController@logout')->name('logout');[m
+[32m+[m[32m});[m
+[32m+[m
+[32m+[m[32m// Auth::routes();[m
+[32m+[m
+[32m+[m[32m// Route::get('/home', 'HomeController@index')->name('home');[m

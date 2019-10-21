@@ -16,18 +16,19 @@ Route::get('/', function () {
 });
 
 
-Route::group(['prefix' => 'admin'], function(){
-	Route::get('/', 'AdminController@index')->name('dashboard');
-	Route::get('/getadd', 'AdminController@getadd')->name('getadd');
-	Route::post('/add', 'AdminController@add')->name('add');
+// Route::group(['prefix' => 'admin'], function(){
+// 	Route::get('/', 'AdminController@index')->name('dashboard');
+// 	Route::get('/getadd', 'AdminController@getadd')->name('getadd');
+// 	Route::post('/add', 'AdminController@add')->name('add');
 
 
-});
+// });
 
 Route::group([
 			'namespace' =>'Admin',
 			'prefix'=>'admin',
-			'as'	=> 'admin.',		
+			'as'	=> 'admin.',
+			'middleware' => ['checkAdmin', 'web'],		
 ], function(){
 	Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 	//package
@@ -109,3 +110,18 @@ Route::group([
 	});
 });
 
+
+Route::group([
+	'namespace' => 'Admin',
+	'as'	=> 'login.',
+	'prefix'=> 'login',
+
+], function(){
+	Route::get('/', 'AdminLoginController@showlogin')->name('showlogin');
+	Route::post('/login', 'AdminLoginController@login')->name('login');
+	Route::any('logout', 'AdminLoginController@logout')->name('logout');
+});
+
+// Auth::routes();
+
+// Route::get('/home', 'HomeController@index')->name('home');
