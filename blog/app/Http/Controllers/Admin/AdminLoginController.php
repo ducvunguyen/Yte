@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminLoginController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+	
 	public function showlogin()
 	{
 		return view('admin.login.showlogin');
@@ -17,7 +22,8 @@ class AdminLoginController extends Controller
 	{
 		$email = $request->email;
 		$password = $request->password;
-		if (Auth::attempt(['email' => $email, 'password' => $password ])) {
+		$remember = $request->has('name');
+		if (Auth::attempt(['email' => $email, 'password' => $password])) {
     		return redirect()->route('admin.dashboard')->with('success', 'Dang nhap thanh cong');
 		}
 		else

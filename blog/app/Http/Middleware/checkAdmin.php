@@ -16,9 +16,12 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-       if (Auth::check()) {
-           return $next($request);
+       if (!Auth::check()||Auth::user()->role >=1) {         
+           return redirect()->route('login.showlogin');
        }
-        return redirect()->route('login.showlogin');
+       else{
+             return $next($request);
+       }
+        
     }
 }

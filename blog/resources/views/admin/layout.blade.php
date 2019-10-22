@@ -74,7 +74,9 @@
     </ul>
 
   </nav>
-
+  <div>
+    {{Auth::user()->name}}
+  </div>
   <div id="wrapper">
 
     <!-- Sidebar -->

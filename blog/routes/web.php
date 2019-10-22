@@ -115,6 +115,7 @@ Route::group([
 	'namespace' => 'Admin',
 	'as'	=> 'login.',
 	'prefix'=> 'login',
+	// 'middleware' => ['FormLogin'],
 
 ], function(){
 	Route::get('/', 'AdminLoginController@showlogin')->name('showlogin');
@@ -125,3 +126,7 @@ Route::group([
 // Auth::routes();
 
 // Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/dashboard', function(){
+	dd('da ve trang home');
+})->name('dashboard');
